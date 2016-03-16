@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Z9h-3t-VMM">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Preloaded-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="PreloadedViewController" customModule="RRHTMLAlertController" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,11 +16,70 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rcM-X9-AAE">
+                                <rect key="frame" x="281" y="285" width="38" height="30"/>
+                                <state key="normal" title="Show"/>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="rcM-X9-AAE" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ihd-Og-u8B"/>
+                            <constraint firstItem="rcM-X9-AAE" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="vyN-zo-bPx"/>
+                        </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Preloaded" id="mmX-SB-PHW"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1074" y="429"/>
+        </scene>
+        <!--Lazy-->
+        <scene sceneID="C3C-vm-JQo">
+            <objects>
+                <viewController id="XfD-Wp-sCg" customClass="LazyViewController" customModule="RRHTMLAlertController" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FIn-ub-rpy"/>
+                        <viewControllerLayoutGuide type="bottom" id="5BX-ID-Bws"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="mGv-Ax-GIi">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nmu-Cc-Olw">
+                                <rect key="frame" x="223" y="285" width="154" height="30"/>
+                                <state key="normal" title="Create lazily and show"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Nmu-Cc-Olw" firstAttribute="centerY" secondItem="mGv-Ax-GIi" secondAttribute="centerY" id="Dd8-WP-C4e"/>
+                            <constraint firstItem="Nmu-Cc-Olw" firstAttribute="centerX" secondItem="mGv-Ax-GIi" secondAttribute="centerX" id="EO1-Z3-g4Q"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Lazy" id="jOl-GE-bLR"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nRz-Ay-nHg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1074" y="1232"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="tKi-Si-RS6">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Z9h-3t-VMM" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="TEa-8X-aKB">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="4Po-Wr-7zY"/>
+                        <segue destination="XfD-Wp-sCg" kind="relationship" relationship="viewControllers" id="bEy-9P-k6P"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iZT-Ei-pn3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="262" y="429"/>
         </scene>
     </scenes>
 </document>

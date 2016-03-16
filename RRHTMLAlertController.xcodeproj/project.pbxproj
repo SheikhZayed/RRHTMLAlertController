@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		995194221C9A0A130081F3AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995194211C9A0A130081F3AC /* AppDelegate.swift */; };
-		995194241C9A0A130081F3AC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995194231C9A0A130081F3AC /* ViewController.swift */; };
+		995194241C9A0A130081F3AC /* PreloadedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995194231C9A0A130081F3AC /* PreloadedViewController.swift */; };
 		995194271C9A0A130081F3AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 995194251C9A0A130081F3AC /* Main.storyboard */; };
 		995194291C9A0A130081F3AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 995194281C9A0A130081F3AC /* Assets.xcassets */; };
 		9951942C1C9A0A130081F3AC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9951942A1C9A0A130081F3AC /* LaunchScreen.storyboard */; };
 		995194371C9A0A130081F3AC /* RRHTMLAlertControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995194361C9A0A130081F3AC /* RRHTMLAlertControllerTests.swift */; };
 		995194421C9A0A140081F3AC /* RRHTMLAlertControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995194411C9A0A140081F3AC /* RRHTMLAlertControllerUITests.swift */; };
+		995194501C9A0B4D0081F3AC /* LazyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9951944F1C9A0B4D0081F3AC /* LazyViewController.swift */; };
+		995194511C9A0B4D0081F3AC /* LazyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9951944F1C9A0B4D0081F3AC /* LazyViewController.swift */; };
+		995194521C9A0B4D0081F3AC /* LazyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9951944F1C9A0B4D0081F3AC /* LazyViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +39,7 @@
 /* Begin PBXFileReference section */
 		9951941E1C9A0A130081F3AC /* RRHTMLAlertController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RRHTMLAlertController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		995194211C9A0A130081F3AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		995194231C9A0A130081F3AC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		995194231C9A0A130081F3AC /* PreloadedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloadedViewController.swift; sourceTree = "<group>"; };
 		995194261C9A0A130081F3AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		995194281C9A0A130081F3AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9951942B1C9A0A130081F3AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +50,7 @@
 		9951943D1C9A0A140081F3AC /* RRHTMLAlertControllerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RRHTMLAlertControllerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		995194411C9A0A140081F3AC /* RRHTMLAlertControllerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RRHTMLAlertControllerUITests.swift; sourceTree = "<group>"; };
 		995194431C9A0A140081F3AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9951944F1C9A0B4D0081F3AC /* LazyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +102,8 @@
 			isa = PBXGroup;
 			children = (
 				995194211C9A0A130081F3AC /* AppDelegate.swift */,
-				995194231C9A0A130081F3AC /* ViewController.swift */,
+				995194231C9A0A130081F3AC /* PreloadedViewController.swift */,
+				9951944F1C9A0B4D0081F3AC /* LazyViewController.swift */,
 				995194251C9A0A130081F3AC /* Main.storyboard */,
 				995194281C9A0A130081F3AC /* Assets.xcassets */,
 				9951942A1C9A0A130081F3AC /* LaunchScreen.storyboard */,
@@ -256,7 +261,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				995194241C9A0A130081F3AC /* ViewController.swift in Sources */,
+				995194241C9A0A130081F3AC /* PreloadedViewController.swift in Sources */,
+				995194501C9A0B4D0081F3AC /* LazyViewController.swift in Sources */,
 				995194221C9A0A130081F3AC /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,6 +271,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				995194511C9A0B4D0081F3AC /* LazyViewController.swift in Sources */,
 				995194371C9A0A130081F3AC /* RRHTMLAlertControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -273,6 +280,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				995194521C9A0B4D0081F3AC /* LazyViewController.swift in Sources */,
 				995194421C9A0A140081F3AC /* RRHTMLAlertControllerUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -484,6 +492,7 @@
 				995194481C9A0A140081F3AC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		995194491C9A0A140081F3AC /* Build configuration list for PBXNativeTarget "RRHTMLAlertControllerTests" */ = {
 			isa = XCConfigurationList;
@@ -492,6 +501,7 @@
 				9951944B1C9A0A140081F3AC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9951944C1C9A0A140081F3AC /* Build configuration list for PBXNativeTarget "RRHTMLAlertControllerUITests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +510,7 @@
 				9951944E1C9A0A140081F3AC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
