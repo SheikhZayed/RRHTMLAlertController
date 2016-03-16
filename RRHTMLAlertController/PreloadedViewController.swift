@@ -1,9 +1,9 @@
 //
-//  ViewController.swift
+//  PreloadedViewController.swift
 //  RRHTMLAlertController
 //
 //  Created by Rodrigo Rallo on 3/16/16.
-//  Copyright © 2016 Rallo. All rights reserved.
+//  Copyright © 2016 - Fotition. All rights reserved.
 //
 
 import UIKit
