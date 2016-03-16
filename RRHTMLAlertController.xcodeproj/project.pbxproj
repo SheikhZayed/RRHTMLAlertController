@@ -17,6 +17,12 @@
 		995194501C9A0B4D0081F3AC /* LazyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9951944F1C9A0B4D0081F3AC /* LazyViewController.swift */; };
 		995194511C9A0B4D0081F3AC /* LazyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9951944F1C9A0B4D0081F3AC /* LazyViewController.swift */; };
 		995194521C9A0B4D0081F3AC /* LazyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9951944F1C9A0B4D0081F3AC /* LazyViewController.swift */; };
+		995194541C9A0E630081F3AC /* RRHTMLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995194531C9A0E630081F3AC /* RRHTMLViewController.swift */; };
+		995194551C9A0E630081F3AC /* RRHTMLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995194531C9A0E630081F3AC /* RRHTMLViewController.swift */; };
+		995194561C9A0E630081F3AC /* RRHTMLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995194531C9A0E630081F3AC /* RRHTMLViewController.swift */; };
+		995194601C9A1D360081F3AC /* CustomHTMLView.html in Resources */ = {isa = PBXBuildFile; fileRef = 9951945F1C9A1D360081F3AC /* CustomHTMLView.html */; };
+		995194611C9A1D360081F3AC /* CustomHTMLView.html in Resources */ = {isa = PBXBuildFile; fileRef = 9951945F1C9A1D360081F3AC /* CustomHTMLView.html */; };
+		995194621C9A1D360081F3AC /* CustomHTMLView.html in Resources */ = {isa = PBXBuildFile; fileRef = 9951945F1C9A1D360081F3AC /* CustomHTMLView.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +57,8 @@
 		995194411C9A0A140081F3AC /* RRHTMLAlertControllerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RRHTMLAlertControllerUITests.swift; sourceTree = "<group>"; };
 		995194431C9A0A140081F3AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9951944F1C9A0B4D0081F3AC /* LazyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyViewController.swift; sourceTree = "<group>"; };
+		995194531C9A0E630081F3AC /* RRHTMLViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RRHTMLViewController.swift; sourceTree = "<group>"; };
+		9951945F1C9A1D360081F3AC /* CustomHTMLView.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = CustomHTMLView.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +112,8 @@
 				995194211C9A0A130081F3AC /* AppDelegate.swift */,
 				995194231C9A0A130081F3AC /* PreloadedViewController.swift */,
 				9951944F1C9A0B4D0081F3AC /* LazyViewController.swift */,
+				995194531C9A0E630081F3AC /* RRHTMLViewController.swift */,
+				9951945F1C9A1D360081F3AC /* CustomHTMLView.html */,
 				995194251C9A0A130081F3AC /* Main.storyboard */,
 				995194281C9A0A130081F3AC /* Assets.xcassets */,
 				9951942A1C9A0A130081F3AC /* LaunchScreen.storyboard */,
@@ -235,6 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9951942C1C9A0A130081F3AC /* LaunchScreen.storyboard in Resources */,
+				995194601C9A1D360081F3AC /* CustomHTMLView.html in Resources */,
 				995194291C9A0A130081F3AC /* Assets.xcassets in Resources */,
 				995194271C9A0A130081F3AC /* Main.storyboard in Resources */,
 			);
@@ -244,6 +255,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				995194611C9A1D360081F3AC /* CustomHTMLView.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,6 +263,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				995194621C9A1D360081F3AC /* CustomHTMLView.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +275,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				995194241C9A0A130081F3AC /* PreloadedViewController.swift in Sources */,
+				995194541C9A0E630081F3AC /* RRHTMLViewController.swift in Sources */,
 				995194501C9A0B4D0081F3AC /* LazyViewController.swift in Sources */,
 				995194221C9A0A130081F3AC /* AppDelegate.swift in Sources */,
 			);
@@ -273,6 +287,7 @@
 			files = (
 				995194511C9A0B4D0081F3AC /* LazyViewController.swift in Sources */,
 				995194371C9A0A130081F3AC /* RRHTMLAlertControllerTests.swift in Sources */,
+				995194551C9A0E630081F3AC /* RRHTMLViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +297,7 @@
 			files = (
 				995194521C9A0B4D0081F3AC /* LazyViewController.swift in Sources */,
 				995194421C9A0A140081F3AC /* RRHTMLAlertControllerUITests.swift in Sources */,
+				995194561C9A0E630081F3AC /* RRHTMLViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
