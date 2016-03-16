@@ -29,6 +29,9 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Preloaded" id="mmX-SB-PHW"/>
+                    <connections>
+                        <outlet property="showButton" destination="rcM-X9-AAE" id="JNq-ww-Adx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -58,6 +61,9 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Lazy" id="jOl-GE-bLR"/>
+                    <connections>
+                        <outlet property="showButton" destination="Nmu-Cc-Olw" id="YNZ-1d-pJD"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nRz-Ay-nHg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
