@@ -1,3 +1,8 @@
+
+<a href="https://www.fotition.com">
+<img border="0" alt="Fotition" src="https://d3qqfrlk1o70jf.cloudfront.net/site/img/logo-square.png" >
+</a>
+
 # RRHTMLAlertController
 RRHTMLAlertController is a fully responsive, UIAlertController alternative that can be styled entirely through HTML for a fully dynamic experience.
 
@@ -5,12 +10,7 @@ We invented this controller when building Fotition because we wanted to show cus
 
 We've received great feedback so far, so we decided to open source this simple view controller.
 
-Check us out:
-www.fotition.com
-
-
-Download our app:
-https://itunes.apple.com/us/app/fotition-social-change-made/id960913360?mt=8
+[Download our app for iOS](https://itunes.apple.com/us/app/fotition-social-change-made/id960913360?mt=8)
 
 
 # Installation
