@@ -12,7 +12,7 @@ class LazyViewController: UIViewController, RRHTMLViewControllerDelegate {
     
     @IBOutlet weak var showButton: UIButton!
     
-    private var htmlAlertController : RRHTMLViewController = RRHTMLViewController()
+    private var htmlAlertController : RRHTMLViewController = RRHTMLViewController(paddings: UIEdgeInsetsMake(20, 20, 20, 20))
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,11 +28,15 @@ class LazyViewController: UIViewController, RRHTMLViewControllerDelegate {
     
     @IBAction func createAndShowAlertController(sender: AnyObject) {
         
-        self.htmlAlertController = RRHTMLViewController()
+        self.htmlAlertController = RRHTMLViewController(paddings: UIEdgeInsetsMake(0, 10, 0, 25))
         self.htmlAlertController.showWhenReady = true;
         self.htmlAlertController.enableAnimation = true;
         self.htmlAlertController.enableDismissOnBackgroundTap = true;
+        self.htmlAlertController.enableNormalNavigation = true;
         self.htmlAlertController.delegate = self;
+        
+        
+        self.htmlAlertController.webView.scrollView.scrollEnabled = true;
         
         self.htmlAlertController.htmlURL = NSURL(string: "https://www.google.com")
         self.presentViewController(self.htmlAlertController, animated: false, completion: nil);

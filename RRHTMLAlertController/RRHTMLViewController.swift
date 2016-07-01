@@ -10,47 +10,82 @@
 import UIKit
 import SafariServices
 
-let kHorizontalPadding : CGFloat = 25.0;
-let kVerticalPadding : CGFloat = 45.0;
-let kCornerRadius : CGFloat = 9.0;
+
+private extension CGFloat {
+    static let kHorizontalPadding       : CGFloat = 25.0
+    static let kVerticalPadding         : CGFloat = 45.0
+    static let kCornerRadius            : CGFloat = 9.0
+    
+}
+
+private extension Double {
+    static let kFadeAnimationDuration   : Double = 0.20;
+    static let kHideDelayDuration       : Double = 0.20;
+    static let kShowAnimationDuration   : Double = 0.25;
+}
+
+private extension Selector {
+    private static var handleTap : Selector = #selector(RRHTMLViewController.handleTap(_:))
+}
 
 @objc public protocol RRHTMLViewControllerDelegate{
   
     //MARK: Delegate Protocol
-    optional func RRHTMLViewControllerDidHide(sender: RRHTMLViewController);
-    optional func RRHTMLViewControllerDidShow(sender: RRHTMLViewController);
-    optional func RRHTMLViewControllerDidFinishLoadingHTML(sender: RRHTMLViewController);
+    optional func rRHTMLViewControllerDidHide(sender: RRHTMLViewController)
+    optional func rRHTMLViewControllerDidShow(sender: RRHTMLViewController)
+    optional func rRHTMLViewControllerDidFinishLoadingHTML(sender: RRHTMLViewController)
 
-    optional func RRHTMLViewControllerWillDismissFromBackgroundTap(sender: RRHTMLViewController);
-    optional func RRHTMLViewControllerWillDismissFromHTMLButton(sender: RRHTMLViewController);
-    optional func RRHTMLViewControllerWillOpenExternalResource(request : NSURLRequest, sender :RRHTMLViewController);
+    optional func rRHTMLViewControllerWillDismissFromBackgroundTap(sender: RRHTMLViewController)
+    optional func rRHTMLViewControllerWillDismissFromHTMLButton(sender: RRHTMLViewController)
+    optional func rRHTMLViewControllerWillOpenExternalResource(request : NSURLRequest, sender :RRHTMLViewController)
 }
 
 public class RRHTMLViewController : UIViewController, UIGestureRecognizerDelegate, UIWebViewDelegate {
     
     //MARK: - Strings to look for in tapped actions.
     
-    //Adding a closeURLString is important so that you can add your own custom HTML 'close' buttons.
-    public var closeURLString : String?;
-    public var enableOpenInSafari : Bool = true;
-    public var enableActivityIndicator : Bool = true;
+
     
     public var delegate : RRHTMLViewControllerDelegate?;
     
+    //MARK: - Settings
+    
+    //Adding a closeURLString is important so that you can add your own custom HTML 'close' buttons.
+    public var closeURLString               : String?
+   
+    public var enableNormalNavigation       : Bool      = false //<--Enable normal nav to allow users to tap any elements within the alert view.
+    
+    public var enableActivityIndicator      : Bool      = true
+    
+    public var enableDismissOnBackgroundTap : Bool      = true
+    
+    public var enableAnimation              : Bool      = true
+    
+    public var enableParallax               : Bool      = false{
+        didSet{
+            if(self.enableParallax){
+                self.setupParallax()
+            }
+        }
+    }
+    
+    public var paddings : UIEdgeInsets = UIEdgeInsetsMake(.kVerticalPadding,
+                                                          .kHorizontalPadding,
+                                                          .kVerticalPadding,
+                                                          .kHorizontalPadding)
     
     //Show when ready should ONLY be false if you are creating this view controller ahead of time.
-    public var showWhenReady : Bool = true;
-    
-    //MARK: - Settings
-    public var enableDismissOnBackgroundTap : Bool = true;
-    public var enableAnimation : Bool = true;
+    public var showWhenReady : Bool = true
 
-    //You want to set either htmlString or the htmlURL, as they will override each other.
+
+
+    
+    //You only want to set either htmlString or the htmlURL, as they will override each other.
     //Most recent will take place.
-    public var htmlString : String = ""{
+    public var htmlString : String = "" {
         didSet{
             if(htmlString.characters.count > 0){
-                self.webView.loadHTMLString(htmlString, baseURL: nil);
+                self.webView.loadHTMLString(htmlString, baseURL: nil)
             }
         }
     }
@@ -59,32 +94,41 @@ public class RRHTMLViewController : UIViewController, UIGestureRecognizerDelegat
         didSet{
 
             if(htmlURL != nil){
-                let request : NSURLRequest = NSURLRequest(URL: htmlURL!);
-                self.webView.loadRequest(request);
+                let request : NSURLRequest = NSURLRequest(URL: htmlURL!)
+                self.webView.loadRequest(request)
             }
         }
     }
    
-    public var webView:UIWebView = UIWebView(frame: CGRect(x: kHorizontalPadding, y: 0, width: (UIScreen.mainScreen().bounds.size.width - 2 * kHorizontalPadding), height: 50));
+   
+    //The webview is in charge of displaying all your html content. 
+    //You might want to enable scrolling depending on the type of content you want to display.
+    public var webView:UIWebView = UIWebView(frame: CGRect( x: .kHorizontalPadding,
+                                                            y: 0,
+                                                        width: (UIScreen.mainScreen().bounds.size.width - 2 * .kHorizontalPadding),
+                                                        height: 50));
+    
     
     public var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray);
     
-    private var finishedLoading : Bool = false;
-    private var heightConstraint : NSLayoutConstraint?;
-    private var tapRecognizer:UITapGestureRecognizer?;
-    private var backgroundColor: UIColor = UIColor(white: 0.1, alpha: 0.7);
+    private var finishedLoading     : Bool = false;
+   
+    private var heightConstraint    : NSLayoutConstraint?;
     
-    private static let kFadeAnimationDuration : Double = 0.20;
-    private static let kHideDelayDuration : Double = 0.20;
-    private static let kShowAnimationDuration : Double = 0.25;
+    private var tapRecognizer       : UITapGestureRecognizer?;
+    
+    private var backgroundColor     : UIColor = UIColor(white: 0.1, alpha: 0.7);
+    
+    
     
     
     //MARK: - Initialization
     func commonInit(){
         self.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen;
         self.view.backgroundColor = UIColor.clearColor();
+       
         self.webView.backgroundColor = UIColor.clearColor();
-        self.webView.layer.cornerRadius = kCornerRadius;
+        self.webView.layer.cornerRadius = .kCornerRadius;
         self.webView.layer.masksToBounds = true;
         self.webView.delegate = self;
         self.webView.scalesPageToFit = false;
@@ -103,6 +147,19 @@ public class RRHTMLViewController : UIViewController, UIGestureRecognizerDelegat
     }
     
     
+    init(paddings : UIEdgeInsets){
+        super.init(nibName: nil, bundle: nil)
+        
+        self.paddings = paddings;
+        self.webView = UIWebView(frame: CGRect( x: self.paddings.left,
+            y: 0,
+            width: (UIScreen.mainScreen().bounds.size.width - self.paddings.left - self.paddings.right),
+            height: 50));
+        self.commonInit()
+        
+    }
+    
+    
     ////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -114,7 +171,6 @@ public class RRHTMLViewController : UIViewController, UIGestureRecognizerDelegat
     public override func viewDidLoad() {
         super.viewDidLoad();
         
-      
         self.view.addSubview(self.webView);
     }
     
@@ -152,12 +208,11 @@ public class RRHTMLViewController : UIViewController, UIGestureRecognizerDelegat
         self.webView.alpha = 0.0;
         self.view.alpha = 0.0;
     }
+
     
-    
-    //MARK: Convenience methods.
     func addTapGestureRecognizer(){
         if(self.enableDismissOnBackgroundTap){
-            self.tapRecognizer = UITapGestureRecognizer(target: self, action:Selector("handleTap:"))
+            self.tapRecognizer = UITapGestureRecognizer(target: self, action: .handleTap)
             self.tapRecognizer?.delegate = self;
             
             if(self.tapRecognizer != nil){
@@ -165,21 +220,24 @@ public class RRHTMLViewController : UIViewController, UIGestureRecognizerDelegat
             }
         }
     }
-
-
+    
+    
+    //MARK: Interaction methods.
     func showActivityIndicator(){
         
         if(self.enableActivityIndicator){
-            self.activityIndicator.startAnimating();
             self.activityIndicator.removeFromSuperview();
             self.view.addSubview(self.activityIndicator);
             self.activityIndicator.center = self.view.center;
+            self.activityIndicator.startAnimating();
         }
         
         self.view.alpha = 0.0;
         self.view.backgroundColor = self.backgroundColor;
        
-        let duration : Double = self.enableAnimation ? RRHTMLViewController.kFadeAnimationDuration : 0.0;
+        let duration : Double = self.enableAnimation ? .kFadeAnimationDuration : 0.0
+        
+        //Fade in
         UIView.animateWithDuration(duration) { () -> Void in
             self.view.alpha = 1.0;
         }
@@ -194,34 +252,36 @@ public class RRHTMLViewController : UIViewController, UIGestureRecognizerDelegat
 
 
     
-    //Shows views and performs a slight pop animation as they appear.
+    //Shows content and performs a slight pop animation as the views appear.
     func showWebView(){
         
         if(self.finishedLoading){
 
-            let duration : Double = self.enableAnimation ? RRHTMLViewController.kFadeAnimationDuration : 0.0;
+            let duration : Double = self.enableAnimation ? .kFadeAnimationDuration : 0.0;
 
-            UIView.animateWithDuration(duration, animations: { () -> Void in
-                
-                self.webView.alpha = 1.0;
-                self.view.alpha = 1.0;
-               
-                if(duration > 0.0){
-                    self.popAnimationForView(self.webView, duration: duration);
-                }
-                
+            UIView.animateWithDuration(
+                duration,
+                animations: { () -> Void in
+                    self.webView.alpha = 1.0;
+                    self.view.alpha = 1.0;
+                    
+                    if(duration > 0.0){
+                        self.popAnimationForView(self.webView, duration: duration);
+                    }
                 },
                 completion: { (finished) -> Void in
-                    self.delegate?.RRHTMLViewControllerDidShow?(self);
-            });
+                    self.delegate?.rRHTMLViewControllerDidShow?(self);
+                }
+            );
         }
     }
     
     
     //Gesture recognizer for background view.
-    //Parametrized so that anyone can disable this behavior by default.
+    //You can disable this behavior by default.
+    //See self.enableDismissOnBackgroundTap
     func handleTap(recognizer: UITapGestureRecognizer) {
-        self.delegate?.RRHTMLViewControllerWillDismissFromBackgroundTap?(self);
+        self.delegate?.rRHTMLViewControllerWillDismissFromBackgroundTap?(self);
         self.hide();
     }
   
@@ -232,18 +292,21 @@ public class RRHTMLViewController : UIViewController, UIGestureRecognizerDelegat
     }
 
     
-    //Directly animate a fade away and shrink, then dismiss view controller.
+    //Animate fading away and shrink, then dismiss view controller.
     //This function might become public in the near future.
-    private func hideWithCompletion(animated: Bool, completion:(()->())?){
+    public func hideWithCompletion(animated: Bool, completion:(()->())?){
        
-        let animationDuration = self.enableAnimation ? RRHTMLViewController.kShowAnimationDuration : 0.0;
+        let animationDuration = self.enableAnimation ? .kShowAnimationDuration : 0.0;
         
-        UIView.animateWithDuration(animationDuration, animations: { () -> Void in
+        UIView.animateWithDuration(
+            animationDuration,
+            animations: { () -> Void in
             
             self.view.alpha = 0.0;
             self.webView.alpha = 0.0;
             
-            UIView.animateWithDuration(animationDuration*2,
+            UIView.animateWithDuration(
+                animationDuration * 2,
                 delay: 0.0,
                 options: UIViewAnimationOptions.CurveLinear,
                 animations: { () -> Void in
@@ -251,64 +314,102 @@ public class RRHTMLViewController : UIViewController, UIGestureRecognizerDelegat
                 },
                 completion: nil);
             
-            }){
-                (finished) -> Void in
-
-                self.webView.transform = CGAffineTransformIdentity;
+            })
+        {
+            //completion:
+            (finished) -> Void in
+            
+            self.webView.transform = CGAffineTransformIdentity;
+            
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(.kHideDelayDuration * Double(NSEC_PER_SEC)))
+            
+            dispatch_after(delayTime,dispatch_get_main_queue()) {
                 
-                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(RRHTMLViewController.kHideDelayDuration * Double(NSEC_PER_SEC)))
-
-                dispatch_after(delayTime, dispatch_get_main_queue()) {
-                    self.dismissViewControllerAnimated(false, completion: { () -> Void in
-                        
-                        self.delegate?.RRHTMLViewControllerDidHide?(self);
-                        if (completion != nil){
-                            completion!();
-                        }
-                    })
-                }
-        };
+                self.dismissViewControllerAnimated(false, completion: { () -> Void in
+                    self.delegate?.rRHTMLViewControllerDidHide?(self);
+                    if (completion != nil){
+                        completion!();
+                    }
+                })
+            }
+        }
     }
 
     
     
-    //Bubble animation any view.
+    //Bubble animation for any view.
     //This might become a UIView extension in the near future.
     private func popAnimationForView(view : UIView, duration: Double){
         UIView.animateWithDuration(duration * 0.5) { () -> Void in
             view.transform = CGAffineTransformMakeScale(1.1, 1.1);
         }
         
-        UIView.animateWithDuration(duration * 0.35, delay: duration * 0.5, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-            view.transform = CGAffineTransformMakeScale(0.92, 0.92);
-            }, completion: nil);
+        UIView.animateWithDuration(
+            duration * 0.35,
+            delay: duration * 0.5,
+            options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
+                view.transform = CGAffineTransformMakeScale(0.92, 0.92);
+            },
+            completion: nil);
         
-        UIView.animateWithDuration(duration * 0.15, delay: duration * 0.85, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-            view.transform = CGAffineTransformMakeScale(1.0, 1.0);
+        UIView.animateWithDuration(
+            duration * 0.15,
+            delay: duration * 0.85,
+            options: UIViewAnimationOptions.CurveLinear,
+            animations: { () -> Void in
+                view.transform = CGAffineTransformMakeScale(1.0, 1.0);
             }, completion: nil);
     }
 
+    
+    
+    //MARK: Parallax
+    func setupParallax(){
+        // Set vertical effect
+        let verticalMotionEffect = UIInterpolatingMotionEffect(keyPath: "center.y",
+                                                               type: .TiltAlongVerticalAxis)
+        verticalMotionEffect.minimumRelativeValue = -10
+        verticalMotionEffect.maximumRelativeValue = 10
+        
+        // Set horizontal effect
+        let horizontalMotionEffect = UIInterpolatingMotionEffect(keyPath: "center.x",
+                                                                 type: .TiltAlongHorizontalAxis)
+        horizontalMotionEffect.minimumRelativeValue = -10
+        horizontalMotionEffect.maximumRelativeValue = 10
+        
+        // Create group to combine both
+        let group = UIMotionEffectGroup()
+        group.motionEffects = [horizontalMotionEffect, verticalMotionEffect]
+        
+        // Add both effects to your view
+        self.webView.addMotionEffect(group)
+    }
 
     
     //MARK: - Webview Rendering
     public func webViewDidFinishLoad(webView: UIWebView) {
+        
+        if(self.finishedLoading == true){
+            return;
+        }
+
+        
         if(webView.isEqual(self.webView)){
 
-            let screenHeight : CGFloat = UIScreen.mainScreen().bounds.size.height - 2 * kVerticalPadding;
+            let screenHeight : CGFloat = UIScreen.mainScreen().bounds.size.height - self.paddings.top - self.paddings.bottom;
             
             if let documentHeightString = webView.stringByEvaluatingJavaScriptFromString("document.height"){
                 
                 var documentHeight = CGFloat((documentHeightString as NSString).floatValue);
                 
-                //Chop off 2 decimals.
+                //Chop 2 decimals.
                 let scaleFactor = floor(100*(screenHeight / (documentHeight)))/100.0;
                 
-                //Normalize size
+                //'Normalize' size
                 if(documentHeight > screenHeight){
                     
-                    //Magic numbers to correct for non perfectly linear zoom scaling.
+                    //Magic numbers to correct for non linear zoom scaling from UIWebViews.
                     webView.stringByEvaluatingJavaScriptFromString("document.body.style.zoom = \(scaleFactor * (1 - 0.05) - 0.13);");
-                    //NSLog(webView.stringByEvaluatingJavaScriptFromString("document.height")!);
                     
                     let documentHeightString2 = webView.stringByEvaluatingJavaScriptFromString("document.height")!;
                     documentHeight = CGFloat((documentHeightString2 as NSString).floatValue);
@@ -319,23 +420,26 @@ public class RRHTMLViewController : UIViewController, UIGestureRecognizerDelegat
 
                 //Size the webview to match it's appripriate height and then apply autolayouts.
                 self.webView.sizeToFit();
-                let webViewHeight : CGFloat = min(documentHeight, UIScreen.mainScreen().bounds.size.height - 2 * kVerticalPadding);
+                let webViewHeight : CGFloat = min(documentHeight, UIScreen.mainScreen().bounds.size.height - self.paddings.top - self.paddings.bottom);
                 self.addWebViewConstraints(webViewHeight);
             }
         }
         
         
+        
         //Finally show the webview when it is fully done loading and sizing.
         //NSLog("Finished loading");
         self.finishedLoading = true;
+        self.delegate?.rRHTMLViewControllerDidFinishLoadingHTML?(self);
         
-        self.delegate?.RRHTMLViewControllerDidFinishLoadingHTML?(self);
+        //only show/animate the webview the first time we finish loading everything.
         self.showWebView();
+
     }
     
 
     
-    //MARK: - Navigation
+    //MARK: - WebView Navigation
     public func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         
         if(UIWebViewNavigationType.LinkClicked == navigationType){
@@ -343,56 +447,24 @@ public class RRHTMLViewController : UIViewController, UIGestureRecognizerDelegat
             //Close URL
             if let closeString : String = self.closeURLString{
                 if(request.URL?.absoluteString == closeString){
-                    self.delegate?.RRHTMLViewControllerWillDismissFromHTMLButton?(self);
+                    self.delegate?.rRHTMLViewControllerWillDismissFromHTMLButton?(self);
                     self.hide();
                     return false;
                 }
             }
-
             
-            if (!self.enableOpenInSafari){
-                return false;
-            }
-
-            if let urlString = request.URL?.absoluteString{
-                
-                let index = urlString.startIndex.advancedBy(4);
-                let subString : String = urlString.substringToIndex(index);
-                if(subString == "http"){
-                   
-                    self.delegate?.RRHTMLViewControllerWillOpenExternalResource?(request, sender: self);
-                    
-                    self.hideWithCompletion(true, completion: { () -> () in
-                        
-                        //If iOS 9.0+ use SFSafariViewController.
-                        if #available(iOS 9, *) {
-                            
-                            //Open in SFSafariVC
-                            let svc = SFSafariViewController(URL: request.URL!);
-                            svc.modalTransitionStyle = UIModalTransitionStyle.CoverVertical;
-                            UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(svc, animated: true, completion: nil);
-                        }
-                        else{
-                            
-                            //Else, open in Safari externally.
-                            if let url = request.URL{
-                                UIApplication.sharedApplication().openURL(url)
-                            }
-                        }
-                    })
-                    
-                    
-                    return false;
-                }
-            }
+            self.delegate?.rRHTMLViewControllerWillOpenExternalResource?(request, sender: self);
+            return false
         }
-        
-        return true;
+
+        //If normal navigation is not enabled, we don't load requests.
+        return self.enableNormalNavigation
     }
 
     
+
     //MARK: - Layout
-    
+
     //Setup autolayout constraints for webview inside background view.
     //Webview is centered vertically and bounded horizontally.
     //There's also a max height bound to keep the alert within reasonable range.
@@ -409,7 +481,7 @@ public class RRHTMLViewController : UIViewController, UIGestureRecognizerDelegat
             toItem: self.webView,
             attribute: NSLayoutAttribute.Leading,
             multiplier: 1.0,
-            constant: -kHorizontalPadding);
+            constant: -self.paddings.left);
 
         let rightAnchor : NSLayoutConstraint = NSLayoutConstraint(item: self.view,
             attribute: NSLayoutAttribute.Trailing,
@@ -417,7 +489,7 @@ public class RRHTMLViewController : UIViewController, UIGestureRecognizerDelegat
             toItem: self.webView,
             attribute: NSLayoutAttribute.Trailing,
             multiplier: 1.0,
-            constant: kHorizontalPadding);
+            constant: self.paddings.right);
 
         let bottomAnchor : NSLayoutConstraint = NSLayoutConstraint(item: self.view,
             attribute: NSLayoutAttribute.Bottom,
@@ -425,7 +497,7 @@ public class RRHTMLViewController : UIViewController, UIGestureRecognizerDelegat
             toItem: self.webView,
             attribute: NSLayoutAttribute.Bottom,
             multiplier: 1.0,
-            constant: kVerticalPadding);
+            constant: self.paddings.bottom);
 
         let topAnchor : NSLayoutConstraint = NSLayoutConstraint(item: self.view,
             attribute: NSLayoutAttribute.Top,
@@ -433,7 +505,7 @@ public class RRHTMLViewController : UIViewController, UIGestureRecognizerDelegat
             toItem: self.webView,
             attribute: NSLayoutAttribute.Top,
             multiplier: 1.0,
-            constant: kVerticalPadding);
+            constant: self.paddings.top);
         
         let vertCenter : NSLayoutConstraint = NSLayoutConstraint(item: self.view,
             attribute: NSLayoutAttribute.CenterY,
