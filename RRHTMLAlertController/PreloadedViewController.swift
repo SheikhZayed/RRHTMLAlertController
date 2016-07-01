@@ -27,9 +27,12 @@ class PreloadedViewController: UIViewController, RRHTMLViewControllerDelegate {
             self.htmlAlertController.htmlString = htmlString
         }
 
-        self.htmlAlertController.showWhenReady = false;
+        self.htmlAlertController.showWhenReady = false; //Since we are pre-loading the alert, delay showing it until prompted.
+       
         self.htmlAlertController.enableAnimation = true;
-        self.htmlAlertController.enableDismissOnBackgroundTap = false;
+        
+        self.htmlAlertController.enableDismissOnBackgroundTap = false; //no need to dismiss from the background if we provide a 'closeURL' in this case.
+        
         self.htmlAlertController.closeURLString = "yourcompany://close"
         
         self.htmlAlertController.delegate = self
@@ -55,11 +58,10 @@ class PreloadedViewController: UIViewController, RRHTMLViewControllerDelegate {
                 let svc = SFSafariViewController(URL: request.URL!);
                 svc.modalTransitionStyle = UIModalTransitionStyle.CoverVertical;
                 self.presentViewController(svc, animated: true, completion: nil)
-                //UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(svc, animated: true, completion: nil);
             }
             else{
                 
-                //Else, open in Safari externally.
+                //Else, push them out to Safari externally.
                 if let url = request.URL{
                     UIApplication.sharedApplication().openURL(url)
                 }
